@@ -5,8 +5,8 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
-  app: django-psql-example
-  template: django-psql-example
+  app: ${NAME}
+  template: ${NAME}
 message: |-
   The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.
 
@@ -63,8 +63,8 @@ metadata:
     manager: cluster-samples-operator
     operation: Update
     time: "2021-09-11T18:13:34Z"
-  name: django-psql-example
-  namespace: openshift
+  name: npdb
+  namespace: npps
   resourceVersion: "21119"
   uid: 95aaa1a9-15d9-4164-86da-b3054d72db9f
 objects:
@@ -134,7 +134,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: python:${PYTHON_VERSION}
-          namespace: ${NAMESPACE}
+          namespace: openshift
       type: Source
     triggers:
     - type: ImageChange
@@ -193,7 +193,7 @@ objects:
               port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 3
-          name: django-psql-example
+          name: ${NAME}
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -209,7 +209,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - django-psql-example
+        - ${NAME}
         from:
           kind: ImageStreamTag
           name: ${NAME}:latest
@@ -295,7 +295,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: postgresql:${POSTGRESQL_VERSION}
-          namespace: ${NAMESPACE}
+          namespace: openshift
       type: ImageChange
     - type: ConfigChange
 parameters:
@@ -303,12 +303,12 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: django-psql-example
+  value: npdb
 - description: The OpenShift Namespace where the ImageStream resides.
   displayName: Namespace
   name: NAMESPACE
   required: true
-  value: openshift
+  value: npps
 - description: Version of Python image to be used (3.6-ubi8, 3.8-ubi7, 3.8-ubi8, or
     latest).
   displayName: Version of Python Image
