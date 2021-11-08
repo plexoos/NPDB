@@ -107,42 +107,6 @@ objects:
       description: Keeps track of changes in the application image
     name: ${NAME}
 - apiVersion: v1
-  kind: BuildConfig
-  metadata:
-    annotations:
-      description: Defines how to build the application
-      template.alpha.openshift.io/wait-for-ready: "true"
-    name: ${NAME}
-  spec:
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${NAME}:latest
-    postCommit:
-      script: ./manage.py test
-    source:
-      contextDir: ${CONTEXT_DIR}
-      git:
-        ref: ${SOURCE_REPOSITORY_REF}
-        uri: ${SOURCE_REPOSITORY_URL}
-      type: Git
-    strategy:
-      sourceStrategy:
-        env:
-        - name: PIP_INDEX_URL
-          value: ${PIP_INDEX_URL}
-        from:
-          kind: ImageStreamTag
-          name: python:${PYTHON_VERSION}
-          namespace: openshift
-      type: Source
-    triggers:
-    - type: ImageChange
-    - type: ConfigChange
-    - github:
-        secret: ${GITHUB_WEBHOOK_SECRET}
-      type: GitHub
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     annotations:
