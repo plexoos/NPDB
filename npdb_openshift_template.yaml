@@ -86,9 +86,9 @@ objects:
     name: ${NAME}
   spec:
     ports:
-    - name: web
-      port: 8080
-      targetPort: 8080
+    - name: ${NAME}
+      port: 8000
+      targetPort: 8000
     selector:
       name: ${NAME}
 - apiVersion: v1
@@ -163,24 +163,20 @@ objects:
       spec:
         containers:
         - env:
-          - name: DATABASE_SERVICE_NAME
+          - name: POSTGRES_HOST
             value: ${DATABASE_SERVICE_NAME}
-          - name: DATABASE_ENGINE
-            value: ${DATABASE_ENGINE}
-          - name: DATABASE_NAME
+          - name: POSTGRES_DB
             value: ${DATABASE_NAME}
-          - name: DATABASE_USER
+          - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
                 key: database-user
                 name: ${NAME}
-          - name: DATABASE_PASSWORD
+          - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: database-password
                 name: ${NAME}
-          - name: APP_CONFIG
-            value: ${APP_CONFIG}
           - name: DJANGO_SECRET_KEY
             valueFrom:
               secretKeyRef:
@@ -190,16 +186,16 @@ objects:
           livenessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 8000
             initialDelaySeconds: 30
             timeoutSeconds: 3
           name: ${NAME}
           ports:
-          - containerPort: 8080
+          - containerPort: 8000
           readinessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: 8000
             initialDelaySeconds: 3
             timeoutSeconds: 3
           resources:
@@ -357,11 +353,6 @@ parameters:
   name: DATABASE_SERVICE_NAME
   required: true
   value: postgresql
-- description: 'Database engine: postgresql, mysql or sqlite (default).'
-  displayName: Database Engine
-  name: DATABASE_ENGINE
-  required: true
-  value: postgresql
 - displayName: Database Name
   name: DATABASE_NAME
   required: true
@@ -373,9 +364,6 @@ parameters:
 - displayName: Database User Password
   name: DATABASE_PASSWORD
   value: password
-- description: Relative path to Gunicorn configuration file (optional).
-  displayName: Application Configuration File Path
-  name: APP_CONFIG
 - description: Set this to a long random string.
   displayName: Django Secret Key
   from: '[\w]{50}'
