@@ -146,7 +146,7 @@ objects:
               secretKeyRef:
                 key: django-secret-key
                 name: ${NAME}
-          image: ' '
+          image: ghcr.io/plexoos/${NAME}:latest
           livenessProbe:
             httpGet:
               path: /health
@@ -165,16 +165,6 @@ objects:
           resources:
             limits:
               memory: ${MEMORY_LIMIT}
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${NAME}
-        from:
-          kind: ImageStreamTag
-          name: ${NAME}:latest
-      type: ImageChange
-    - type: ConfigChange
 - apiVersion: v1
   kind: Service
   metadata:
