@@ -365,15 +365,14 @@ parameters:
 - displayName: Database Name
   name: DATABASE_NAME
   required: true
-  value: default
+  value: dbname
 - displayName: Database Username
   name: DATABASE_USER
   required: true
-  value: django
+  value: login
 - displayName: Database User Password
-  from: '[a-zA-Z0-9]{16}'
-  generate: expression
   name: DATABASE_PASSWORD
+  value: password
 - description: Relative path to Gunicorn configuration file (optional).
   displayName: Application Configuration File Path
   name: APP_CONFIG
