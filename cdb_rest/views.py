@@ -118,10 +118,10 @@ class GlobalTagTypeCreationAPIView(ListCreateAPIView):
         return Response(serializer.data)
 
 
-class PayloadListListCreationAPIView(ListCreateAPIView):
+class PayloadListCreationAPIView(ListCreateAPIView):
     #    authentication_classes = ()
     #    permission_classes = ()
-    serializer_class = PayloadListCreateSerializer
+    serializer_class = PayloadListSerializer
 
     def get_next_id(self):
         return PayloadListIdSequence.objects.create()
@@ -138,12 +138,13 @@ class PayloadListListCreationAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         data = request.data
-        id = self.get_next_id()
 
-        data['id'] = int(id)
-        data['name'] = data['payload_type'] + '_' + str(id)
+        pt = PayloadType.objects.select_related().get(pk=data['payload_type'])
+        gt = GlobalTag.objects.select_related().get(pk=data['global_tag'])
+        data['name'] = f'{gt.name}_{pt.name}'
         #Remove GT if provided
-        data['global_tag'] = None
+        data['global_tag'] = gt.id
+        data['payload_type'] = pt.id
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)

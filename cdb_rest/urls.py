@@ -4,8 +4,8 @@ from cdb_rest.views import GlobalTagStatusDetailAPIView
 from cdb_rest.views import GlobalTagTypeDetailAPIView
 from cdb_rest.views import PayloadTypeDetailAPIView
 from cdb_rest.views import PayloadListDetailAPIView
-from cdb_rest.views import PayloadListListCreationAPIView, PayloadTypeListCreationAPIView, PayloadIOVListCreationAPIView
 from cdb_rest.views import PayloadIOVDetailAPIView
+from cdb_rest.views import PayloadListCreationAPIView, PayloadTypeListCreationAPIView, PayloadIOVListCreationAPIView
 from cdb_rest.views import PayloadIOVsListAPIView, PayloadIOVsRangesListAPIView
 from cdb_rest.views import PayloadListAttachAPIView
 
@@ -29,7 +29,7 @@ urlpatterns = [
     path('globalTags/<int:sourceGlobalTagId>', GlobalTagCloneAPIView.as_view(), name="clone_global_tag"),
 
 
-    path('pl', PayloadListListCreationAPIView.as_view(), name="payload_list"),
+    path('pl', PayloadListCreationAPIView.as_view(), name="payload_list"),
     path('pl/<int:pk>', PayloadListDetailAPIView.as_view(), name="payload_list_detail"),
     path('pt', PayloadTypeListCreationAPIView.as_view(), name="payload_type"),
     path('pt/<int:pk>', PayloadTypeDetailAPIView.as_view(), name="payload_type_detail"),
