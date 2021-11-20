@@ -7,14 +7,14 @@ class GlobalTagStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GlobalTagStatus
-        fields = ("name","created")
+        fields = ("id","name","created")
 
 
 class GlobalTagTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GlobalTagType
-        fields = ("name", "created")
+        fields = ("id", "name", "created")
 
 class GlobalTagCreateSerializer(serializers.ModelSerializer):
 
@@ -27,7 +27,7 @@ class PayloadTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PayloadType
-        fields = ("name", "created")
+        fields = ("id", "name", "created")
 
 #class PayloadListIdSeqCreateSerializer(serializers.ModelSerializer):
 #
