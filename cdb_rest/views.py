@@ -24,6 +24,26 @@ class GlobalTagDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = GlobalTag.objects.all()
  #   permission_classes = (IsAuthenticated, UserIsOwnerTodo)
 
+class GlobalTagStatusDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = GlobalTagStatusSerializer
+    queryset = GlobalTagStatus.objects.all()
+
+class GlobalTagTypeDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = GlobalTagTypeSerializer
+    queryset = GlobalTagType.objects.all()
+
+class PayloadTypeDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PayloadTypeSerializer
+    queryset = PayloadType.objects.all()
+
+class PayloadListDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PayloadListReadSerializer
+    queryset = PayloadList.objects.all()
+
+class PayloadIOVDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PayloadIOVSerializer
+    queryset = PayloadList.objects.all()
+
 class GlobalTagListCreationAPIView(ListCreateAPIView):
 
 
