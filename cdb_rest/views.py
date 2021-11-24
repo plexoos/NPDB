@@ -2,6 +2,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.renderers import JSONRenderer
+from rest_framework import serializers
 #from rest_framework.permissions import IsAuthenticated
 
 
@@ -87,10 +88,15 @@ class GlobalTagStatusCreationAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
 
-        return Response(serializer.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response(e.detail)
+
+        obj, created = GlobalTagStatus.objects.get_or_create(name=serializer.data['name'])
+
+        return Response(GlobalTagStatusSerializer(obj).data)
 
 
 class GlobalTagTypeCreationAPIView(ListCreateAPIView):
@@ -112,10 +118,15 @@ class GlobalTagTypeCreationAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
 
-        return Response(serializer.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response(e.detail)
+
+        obj, created = GlobalTagType.objects.get_or_create(name=serializer.data['name'])
+
+        return Response(GlobalTagTypeSerializer(obj).data)
 
 
 class PayloadListCreationAPIView(ListCreateAPIView):
@@ -137,21 +148,20 @@ class PayloadListCreationAPIView(ListCreateAPIView):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        data = request.data
+        serializer = self.get_serializer(data=request.data)
 
-        pt = PayloadType.objects.select_related().get(pk=data['payload_type'])
-        gt = GlobalTag.objects.select_related().get(pk=data['global_tag'])
-        data['name'] = f'{gt.name}_{pt.name}'
-        #Remove GT if provided
-        data['global_tag'] = gt.id
-        data['payload_type'] = pt.id
+        try:
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response(e.detail)
 
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        pt = PayloadType.objects.get(pk=serializer.data['payload_type'])
+        gt = GlobalTag.objects.get(pk=serializer.data['global_tag'])
 
+        obj, created = PayloadList.objects.get_or_create(global_tag=gt, payload_type=pt, defaults={'name': f'{gt.name}_{pt.name}'})
 
-        return Response(serializer.data)
+        return Response(PayloadListSerializer(obj).data)
+
 
 class PayloadTypeListCreationAPIView(ListCreateAPIView):
     #    authentication_classes = ()
@@ -169,10 +179,16 @@ class PayloadTypeListCreationAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
 
-        return Response(serializer.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response(e.detail)
+
+        obj, created = PayloadType.objects.get_or_create(name=serializer.data['name'])
+
+        return Response(PayloadTypeSerializer(obj).data)
+
 
 class PayloadIOVListCreationAPIView(ListCreateAPIView):
     #    authentication_classes = ()
@@ -190,17 +206,18 @@ class PayloadIOVListCreationAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         data = request.data
-        #pList = PayloadList.objects.values_list('id', flat=True).get(name=data['payload_list'])
-        pList = PayloadList.objects.get(name=data['payload_list'])
-        data['payload_list'] = pList.id
+        pList = PayloadList.objects.get(pk=data['payload_list'])
 
         serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        pList.save()
-        ret = serializer.data
-        ret['payload_list'] = pList.name
-        return Response(ret)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except serializers.ValidationError as e:
+            return Response(e.detail)
+
+        obj, created = PayloadIOV.objects.get_or_create(payload_url=serializer.data['payload_url'], payload_list=pList)
+
+        return Response(PayloadIOVSerializer(obj).data)
 
 
 #API to create GT. GT provided as JSON body
