@@ -1,29 +1,23 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.renderers import JSONRenderer
+from rest_framework import status
 from rest_framework import serializers
-#from rest_framework.permissions import IsAuthenticated
-
 
 from django.db import transaction
-
 from django.db.models import Prefetch
 from django.db.models import QuerySet
 
 from cdb_rest.models import GlobalTag, GlobalTagStatus, GlobalTagType, PayloadList, PayloadType, PayloadIOV, PayloadListIdSequence
-# from todos.permissions import UserIsOwnerTodo
 from cdb_rest.serializers import GlobalTagCreateSerializer, GlobalTagReadSerializer, GlobalTagStatusSerializer, GlobalTagTypeSerializer
 from cdb_rest.serializers import PayloadListCreateSerializer, PayloadListReadSerializer, PayloadTypeSerializer
 from cdb_rest.serializers import PayloadIOVSerializer
 from cdb_rest.serializers import PayloadListSerializer
-#from cdb_rest.serializers import PayloadListIdSeqSerializer
 
 
 class GlobalTagDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = GlobalTagReadSerializer
     queryset = GlobalTag.objects.all()
- #   permission_classes = (IsAuthenticated, UserIsOwnerTodo)
 
 class GlobalTagStatusDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = GlobalTagStatusSerializer
@@ -47,17 +41,12 @@ class PayloadIOVDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 class GlobalTagListCreationAPIView(ListCreateAPIView):
 
-
-#    authentication_classes = ()
-#    permission_classes = ()
     serializer_class = GlobalTagCreateSerializer
-
 
     def get_queryset(self):
         return GlobalTag.objects.all()
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
         serializer = GlobalTagReadSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -69,19 +58,16 @@ class GlobalTagListCreationAPIView(ListCreateAPIView):
 
         return Response(serializer.data)
 
+
 class GlobalTagStatusCreationAPIView(ListCreateAPIView):
 
-    #authentication_classes = ()
-    #permission_classes = ()
     serializer_class = GlobalTagStatusSerializer
     lookup_field = 'name'
-
 
     def get_queryset(self):
         return GlobalTagStatus.objects.all()
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
         serializer = GlobalTagStatusSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -101,17 +87,12 @@ class GlobalTagStatusCreationAPIView(ListCreateAPIView):
 
 class GlobalTagTypeCreationAPIView(ListCreateAPIView):
 
-
-#    authentication_classes = ()
-#    permission_classes = ()
     serializer_class = GlobalTagTypeSerializer
-
 
     def get_queryset(self):
         return GlobalTagType.objects.all()
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
         serializer = GlobalTagTypeSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -130,19 +111,16 @@ class GlobalTagTypeCreationAPIView(ListCreateAPIView):
 
 
 class PayloadListCreationAPIView(ListCreateAPIView):
-    #    authentication_classes = ()
-    #    permission_classes = ()
+
     serializer_class = PayloadListSerializer
 
     def get_next_id(self):
         return PayloadListIdSequence.objects.create()
 
-
     def get_queryset(self):
         return PayloadList.objects.all()
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
         serializer = PayloadListReadSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -164,15 +142,13 @@ class PayloadListCreationAPIView(ListCreateAPIView):
 
 
 class PayloadTypeListCreationAPIView(ListCreateAPIView):
-    #    authentication_classes = ()
-    #    permission_classes = ()
+
     serializer_class = PayloadTypeSerializer
 
     def get_queryset(self):
         return PayloadType.objects.all()
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
         serializer = PayloadTypeSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -191,15 +167,13 @@ class PayloadTypeListCreationAPIView(ListCreateAPIView):
 
 
 class PayloadIOVListCreationAPIView(ListCreateAPIView):
-    #    authentication_classes = ()
-    #    permission_classes = ()
+
     serializer_class = PayloadIOVSerializer
 
     def get_queryset(self):
         return PayloadIOV.objects.all()
 
     def list(self, request):
-        # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
         serializer = PayloadIOVSerializer(queryset, many=True)
         return Response(serializer.data)

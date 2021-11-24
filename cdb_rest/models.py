@@ -1,13 +1,10 @@
 from __future__ import unicode_literals
-# from django.conf import settings
 
 from django.db import models
 from django.utils.encoding import smart_text as smart_unicode
-# from django.utils.translation import ugettext_lazy as _
 
 class GlobalTagStatus(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
-    #id = models.BigIntegerField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
     description = models.CharField(max_length=255, db_column='description')
     created = models.DateTimeField(auto_now_add=True, db_column='created')
@@ -23,7 +20,6 @@ class GlobalTagStatus(models.Model):
 
 class GlobalTagType(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
-    #id = models.BigIntegerField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
     description = models.CharField(max_length=255, db_column='description')
     created = models.DateTimeField(auto_now_add=True, db_column='created')
@@ -38,7 +34,6 @@ class GlobalTagType(models.Model):
         return smart_unicode(self.name)
 
 class GlobalTag(models.Model):
-    #id = models.BigIntegerField(primary_key=True, db_column='id')
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
     description = models.CharField(max_length=255, db_column='description')
@@ -58,7 +53,6 @@ class GlobalTag(models.Model):
 
 class PayloadType(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
-    #id = models.BigIntegerField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
     description = models.CharField(max_length=255, db_column='description')
     created = models.DateTimeField(auto_now_add=True, db_column='created')
@@ -87,7 +81,6 @@ class PayloadListIdSequence(models.Model):
 
 
 class PayloadList(models.Model):
-    #id = models.BigIntegerField(primary_key=True, db_column='id', unique=True)
     id  = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=255, db_column='name')
     description = models.CharField(max_length=255, db_column='description')
@@ -105,13 +98,8 @@ class PayloadList(models.Model):
     def __unicode__(self):
         return smart_unicode(self.name)
 
-#class PayloadIOV(models.Model):
-#    major_iov = models.BigIntegerField(db_column='major_iov')
-#    minor_iov = models.BigIntegerField(db_column='minor_iov')
-#    payload = models.ForeignKey(Payload, related_name='payload', on_delete=models.CASCADE, null=True)
 
 class PayloadIOV(models.Model):
-    #id = models.BigIntegerField(primary_key=True, db_column='id',unique=True)
     id = models.BigAutoField(primary_key = True, db_column = 'id', unique=True)
     payload_url = models.CharField(max_length=255, db_column='payload_url')
     major_iov = models.BigIntegerField(db_column='major_iov', default=0)

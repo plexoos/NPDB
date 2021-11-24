@@ -9,7 +9,6 @@ class GlobalTagStatusSerializer(serializers.ModelSerializer):
         model = GlobalTagStatus
         fields = ("id","name","created")
 
-
 class GlobalTagTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -75,10 +74,3 @@ class GlobalTagReadSerializer(serializers.ModelSerializer):
         model = GlobalTag
         fields = ("id", "name", "status", "type", "payload_lists", "created", "updated")
         depth = 1
-
-
-
-
-
-
-

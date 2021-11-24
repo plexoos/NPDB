@@ -28,7 +28,6 @@ urlpatterns = [
     #Clone GT
     path('globalTags/<int:sourceGlobalTagId>', GlobalTagCloneAPIView.as_view(), name="clone_global_tag"),
 
-
     path('pl', PayloadListCreationAPIView.as_view(), name="payload_list"),
     path('pl/<int:pk>', PayloadListDetailAPIView.as_view(), name="payload_list_detail"),
     path('pt', PayloadTypeListCreationAPIView.as_view(), name="payload_type"),
@@ -39,11 +38,9 @@ urlpatterns = [
 
     path('pl_attach', PayloadListAttachAPIView.as_view(), name="payload_list_attach"),
 
-
     #get GT PayloadIOVs
     #payloads gtName , runNumber , expNumber
     #path('payloadiovs/<globalTagId>/<majorIOV>/<minorIOV>', PayloadIOVsListAPIView.as_view(), name="payload_list"),
     path('payloadiovs/', PayloadIOVsListAPIView.as_view(), name="payload_list"),
     path('payloadiovsrange/', PayloadIOVsRangesListAPIView.as_view(), name="payload_ranges_list")
-
 ]
