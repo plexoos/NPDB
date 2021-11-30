@@ -6,7 +6,7 @@ from django.utils.encoding import smart_text as smart_unicode
 class GlobalTagStatus(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
-    description = models.CharField(max_length=255, db_column='description')
+    description = models.CharField(max_length=255, db_column='description', null=True)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
 
     class Meta:
@@ -21,7 +21,7 @@ class GlobalTagStatus(models.Model):
 class GlobalTagType(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
-    description = models.CharField(max_length=255, db_column='description')
+    description = models.CharField(max_length=255, db_column='description', null=True)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
 
     class Meta:
@@ -36,7 +36,7 @@ class GlobalTagType(models.Model):
 class GlobalTag(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
-    description = models.CharField(max_length=255, db_column='description')
+    description = models.CharField(max_length=255, db_column='description', null=True)
     status = models.ForeignKey(GlobalTagStatus, on_delete=models.CASCADE)
     type = models.ForeignKey(GlobalTagType, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
@@ -54,7 +54,7 @@ class GlobalTag(models.Model):
 class PayloadType(models.Model):
     id = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=80, db_column='name')
-    description = models.CharField(max_length=255, db_column='description')
+    description = models.CharField(max_length=255, db_column='description', null=True)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
 
     class Meta:
@@ -83,7 +83,7 @@ class PayloadListIdSequence(models.Model):
 class PayloadList(models.Model):
     id  = models.BigAutoField(primary_key=True, db_column='id', unique=True)
     name = models.CharField(max_length=255, db_column='name')
-    description = models.CharField(max_length=255, db_column='description')
+    description = models.CharField(max_length=255, db_column='description', null=True)
     global_tag = models.ForeignKey(GlobalTag, related_name='payload_lists', on_delete=models.CASCADE)
     payload_type = models.ForeignKey(PayloadType, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
@@ -105,7 +105,7 @@ class PayloadIOV(models.Model):
     major_iov = models.BigIntegerField(db_column='major_iov', default=0)
     minor_iov = models.BigIntegerField(db_column='minor_iov', default=0)
     payload_list = models.ForeignKey(PayloadList, related_name='payload_iov', on_delete=models.CASCADE)
-    description = models.CharField(max_length=255, db_column='description')
+    description = models.CharField(max_length=255, db_column='description', null=True)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
     updated = models.DateTimeField(auto_now=True, db_column='updated')
 
