@@ -25,4 +25,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/npdb-test:latest
+          tags: ghcr.io/${{ github.repository_owner }}/npdb:latest

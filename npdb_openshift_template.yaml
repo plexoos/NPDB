@@ -91,7 +91,7 @@ objects:
               secretKeyRef:
                 key: django-secret-key
                 name: ${NAME}
-          image: ghcr.io/plexoos/${NAME}:latest
+          image: ghcr.io/plexoos/npdb:latest
           name: ${NAME}
           ports:
           - containerPort: 8000
