@@ -189,7 +189,8 @@ class PayloadIOVListCreationAPIView(ListCreateAPIView):
         except serializers.ValidationError as e:
             return Response(e.detail)
 
-        obj, created = PayloadIOV.objects.get_or_create(payload_url=serializer.data['payload_url'], payload_list=pList)
+        defaults = {'minor_iov': serializer.data['minor_iov']}
+        obj, created = PayloadIOV.objects.get_or_create(payload_url=serializer.data['payload_url'], payload_list=pList, defaults=defaults)
 
         return Response(PayloadIOVSerializer(obj).data)
 
