@@ -168,8 +168,9 @@ objects:
           - mountPath: /var/lib/pgsql/data
             name: data
         volumes:
-        - emptyDir: {}
-          name: data
+        - name: data
+          persistentVolumeClaim:
+            claimName: npdb-postgresql-pvc
     triggers:
     - imageChangeParams:
         automatic: true
