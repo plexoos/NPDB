@@ -182,6 +182,11 @@ class PayloadIOVListCreationAPIView(ListCreateAPIView):
         data = request.data
         pList = PayloadList.objects.get(pk=data['payload_list'])
 
+        #Check if PL is attached and unlocked
+        if pList.global_tag:
+            if pList.global_tag.status_id == 'locked':
+                return Response({"detail": "Global Tag is locked."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         serializer = self.get_serializer(data=data)
 
         try:
@@ -347,6 +352,10 @@ class PayloadListAttachAPIView(UpdateAPIView):
             plType = PayloadType.objects.get(name=data['payload_type'])
         except:
             return Response({"detail": "PayloadListType not found."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        #check if GT is unlocked
+        if gTag.status_id == 'locked' :
+            return Response({"detail": "Global Tag is locked."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         #check if the PayloadList of the same type is already attached. If yes then detach
         PayloadList.objects.filter(global_tag=gTag, payload_type=plType).update(global_tag=None)
