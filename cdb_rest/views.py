@@ -4,6 +4,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework import status
 from rest_framework import serializers
 
+from django.core import exceptions
+
 from django.db import transaction
 from django.db.models import Prefetch
 from django.db.models import QuerySet
@@ -13,6 +15,7 @@ from cdb_rest.serializers import GlobalTagCreateSerializer, GlobalTagReadSeriali
 from cdb_rest.serializers import PayloadListCreateSerializer, PayloadListReadSerializer, PayloadTypeSerializer
 from cdb_rest.serializers import PayloadIOVSerializer
 from cdb_rest.serializers import PayloadListSerializer
+from cdb_rest.serializers import PayloadIntervalListSerializer
 
 
 class GlobalTagDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -198,6 +201,53 @@ class PayloadIOVListCreationAPIView(ListCreateAPIView):
         obj, created = PayloadIOV.objects.get_or_create(payload_url=serializer.data['payload_url'], payload_list=pList, defaults=defaults)
 
         return Response(PayloadIOVSerializer(obj).data)
+
+
+class PayloadIntervalListCreateAPIView(ListCreateAPIView):
+
+    serializer_class = PayloadIntervalListSerializer
+
+    def get_queryset(self):
+        return PayloadList.objects.all()
+
+    def list(self, request):
+        domain_filter = request.GET.get('domain', None)
+        if domain_filter:
+            queryset = PayloadList.objects.filter(payload_type__name__istartswith=domain_filter)
+        else:
+            queryset = PayloadList.objects.all()
+
+        return Response(PayloadIntervalListSerializer(queryset, many=True).data)
+
+    def create(self, request, *args, **kwargs):
+        # Transform to a list
+        entries = request.data if isinstance(request.data, list) else [request.data]
+
+        pls = []
+        for entry in entries:
+            try:
+                pl = self.create_entry(entry)
+            except serializers.ValidationError as e:
+                return Response(e.detail)
+
+            pls.append(pl)
+
+        return Response(PayloadListSerializer(pls, many=True).data)
+
+    @transaction.atomic
+    def create_entry(self, entry):
+        serializer = self.get_serializer(data=entry)
+
+        serializer.is_valid(raise_exception=True)
+
+        pt, pt_created = PayloadType.objects.get_or_create(name=serializer.data['domain'])
+        pl, pl_created = PayloadList.objects.get_or_create(hexhash=serializer.calc_hash(), defaults=dict(payload_type=pt))
+
+        if pl_created:
+            payloads = [PayloadIOV(**p, payload_list=pl) for p in serializer.validated_data['payload_iov']]
+            PayloadIOV.objects.bulk_create(payloads)
+
+        return pl
 
 
 #API to create GT. GT provided as JSON body
