@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework import status
@@ -248,6 +248,19 @@ class PayloadIntervalListCreateAPIView(ListCreateAPIView):
             PayloadIOV.objects.bulk_create(payloads)
 
         return pl
+
+
+class PayloadIntervalRetrieveAPIView(RetrieveAPIView):
+
+    serializer_class = PayloadIntervalListSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            pl = PayloadList.objects.get(hexhash__istartswith=kwargs['hexhash'])
+        except BaseException as e:
+            return Response({"detail": f"{e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(PayloadIntervalListSerializer(pl).data)
 
 
 #API to create GT. GT provided as JSON body

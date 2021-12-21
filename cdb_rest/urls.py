@@ -1,4 +1,6 @@
 from django.urls import path
+from django.urls import register_converter
+from cdb_rest import converters
 from cdb_rest import views
 from cdb_rest.views import GlobalTagListCreationAPIView, GlobalTagDetailAPIView, GlobalTagStatusCreationAPIView, GlobalTagTypeCreationAPIView
 from cdb_rest.views import GlobalTagStatusDetailAPIView
@@ -15,6 +17,8 @@ from cdb_rest.views import PayloadListAttachAPIView
 from cdb_rest.views import GlobalTagCloneAPIView
 
 app_name = 'cdb_rest'
+
+register_converter(converters.HexStringConverter, 'hex')
 
 urlpatterns = [
     path('gt', GlobalTagListCreationAPIView.as_view(), name="global_tag"),
@@ -38,6 +42,7 @@ urlpatterns = [
     path('piov/<int:pk>', PayloadIOVDetailAPIView.as_view(), name="payload_iov_detail"),
 
     path('pil', views.PayloadIntervalListCreateAPIView.as_view()),
+    path('pil/<hex:hexhash>', views.PayloadIntervalRetrieveAPIView.as_view()),
 
     path('pl_attach', PayloadListAttachAPIView.as_view(), name="payload_list_attach"),
 

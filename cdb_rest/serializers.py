@@ -102,3 +102,18 @@ class PayloadIntervalListSerializer(serializers.ModelSerializer):
                 m.update(str(v).encode())
 
         return m.hexdigest()
+
+class PayloadIntervalsSerializer(serializers.ModelSerializer):
+    domain = serializers.CharField(source="payload_type.name")
+
+    class Meta:
+        model = PayloadList
+        fields = ("domain", "hexhash")
+
+class TagSerializer(serializers.ModelSerializer):
+    tag = serializers.CharField(source="name")
+    pil = PayloadIntervalsSerializer(source="payload_lists", many=True)
+
+    class Meta:
+        model = GlobalTag
+        fields = ("tag", "pil")
