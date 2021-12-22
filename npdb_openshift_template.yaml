@@ -167,6 +167,7 @@ objects:
           volumeMounts:
           - mountPath: /var/lib/pgsql/data
             name: data
+            subPath: ${NAME}
         volumes:
         - name: data
           persistentVolumeClaim:
