@@ -44,6 +44,8 @@ urlpatterns = [
     path('pil', views.PayloadIntervalListCreateAPIView.as_view()),
     path('pil/<hex:hexhash>', views.PayloadIntervalRetrieveAPIView.as_view()),
 
+    path('tag', views.TagListCreateAPIView.as_view()),
+
     path('pl_attach', PayloadListAttachAPIView.as_view(), name="payload_list_attach"),
 
     #get GT PayloadIOVs

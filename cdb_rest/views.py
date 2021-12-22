@@ -9,6 +9,7 @@ from django.core import exceptions
 from django.db import transaction
 from django.db.models import Prefetch
 from django.db.models import QuerySet
+from django.db.models import Q
 
 from cdb_rest.models import GlobalTag, GlobalTagStatus, GlobalTagType, PayloadList, PayloadType, PayloadIOV, PayloadListIdSequence
 from cdb_rest.serializers import GlobalTagCreateSerializer, GlobalTagReadSerializer, GlobalTagStatusSerializer, GlobalTagTypeSerializer
@@ -16,6 +17,7 @@ from cdb_rest.serializers import PayloadListCreateSerializer, PayloadListReadSer
 from cdb_rest.serializers import PayloadIOVSerializer
 from cdb_rest.serializers import PayloadListSerializer
 from cdb_rest.serializers import PayloadIntervalListSerializer
+from cdb_rest.serializers import TagSerializer
 
 
 class GlobalTagDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -261,6 +263,49 @@ class PayloadIntervalRetrieveAPIView(RetrieveAPIView):
             return Response({"detail": f"{e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(PayloadIntervalListSerializer(pl).data)
+
+import operator
+import functools
+
+class TagListCreateAPIView(ListCreateAPIView):
+
+    serializer_class = TagSerializer
+
+    def get_queryset(self):
+        return GlobalTag.objects.all()
+
+    def list(self, request):
+        return Response(TagSerializer(self.get_queryset(), many=True).data)
+
+    @transaction.atomic
+    def create(self, request, *args, **kwargs):
+        # Transform to a list
+        entries = request.data if isinstance(request.data, list) else [request.data]
+
+        pls = []
+        for entry in entries:
+            try:
+                pl = self.create_entry(entry)
+            except serializers.ValidationError as e:
+                return Response(e.detail)
+
+            pls.append(pl)
+
+        return Response(TagSerializer(pls, many=True).data)
+
+    @transaction.atomic
+    def create_entry(self, entry):
+        serializer = self.get_serializer(data=entry)
+
+        serializer.is_valid(raise_exception=True)
+
+        tag, tag_created = GlobalTag.objects.get_or_create(name=serializer.data['tag'])
+
+        qq = functools.reduce(operator.or_, [Q(hexhash__istartswith=p['hexhash']) & Q(payload_type__name=p['domain']) for p in serializer.data['pil']])
+        # TODO sort by id before distinct in order to pick latest for each domain
+        pil = PayloadList.objects.filter(qq).distinct('payload_type__name').update(global_tag=tag.pk)
+
+        return tag
 
 
 #API to create GT. GT provided as JSON body
