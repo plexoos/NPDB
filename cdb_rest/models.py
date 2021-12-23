@@ -82,7 +82,7 @@ class PayloadListIdSequence(models.Model):
 
 class PayloadList(models.Model):
     id  = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255, db_column='name', unique=True)
+    name = models.CharField(max_length=255, db_column='name')
     hexhash = models.CharField(max_length=40)
     description = models.CharField(max_length=255, db_column='description', null=True)
     global_tag = models.ForeignKey(GlobalTag, related_name='payload_lists', on_delete=models.CASCADE, null=True)
