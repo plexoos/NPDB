@@ -301,9 +301,9 @@ class TagListCreateAPIView(ListCreateAPIView):
 
         tag, tag_created = GlobalTag.objects.get_or_create(name=serializer.data['tag'])
 
-        qq = functools.reduce(operator.or_, [Q(hexhash__istartswith=p['hexhash']) & Q(payload_type__name=p['domain']) for p in serializer.data['pil']])
+        qq = functools.reduce(operator.or_, [Q(hexhash__istartswith=p['hexhash']) & Q(payload_type__name=p['domain']) for p in serializer.data['pils']])
         # TODO sort by id before distinct in order to pick latest for each domain
-        pil = PayloadList.objects.filter(qq).distinct('payload_type__name').update(global_tag=tag.pk)
+        pils = PayloadList.objects.filter(qq).distinct('payload_type__name').update(global_tag=tag.pk)
 
         return tag
 

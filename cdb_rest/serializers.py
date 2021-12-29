@@ -112,8 +112,8 @@ class PayloadIntervalsSerializer(serializers.ModelSerializer):
 
 class TagSerializer(serializers.ModelSerializer):
     tag = serializers.CharField(source="name")
-    pil = PayloadIntervalsSerializer(source="payload_lists", many=True)
+    pils = PayloadIntervalsSerializer(source="payload_lists", many=True)
 
     class Meta:
         model = GlobalTag
-        fields = ("tag", "pil")
+        fields = ("tag", "pils")
