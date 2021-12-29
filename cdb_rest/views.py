@@ -308,6 +308,19 @@ class TagListCreateAPIView(ListCreateAPIView):
         return tag
 
 
+class TagRetrieveAPIView(RetrieveAPIView):
+
+    serializer_class = TagSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            inst = GlobalTag.objects.get(name=kwargs['name'])
+        except BaseException as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(TagSerializer(inst).data)
+
+
 #API to create GT. GT provided as JSON body
 #class GlobalTagCreateAPIView(CreateAPIView):
 #

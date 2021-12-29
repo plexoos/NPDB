@@ -45,6 +45,7 @@ urlpatterns = [
     path('pil/<hex:hexhash>', views.PayloadIntervalRetrieveAPIView.as_view()),
 
     path('tag', views.TagListCreateAPIView.as_view()),
+    path('tag/<str:name>', views.TagRetrieveAPIView.as_view()),
 
     path('pl_attach', PayloadListAttachAPIView.as_view(), name="payload_list_attach"),
 
