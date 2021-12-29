@@ -264,18 +264,17 @@ class PayloadIntervalRetrieveAPIView(RetrieveAPIView):
 
         return Response(PayloadIntervalListSerializer(pl).data)
 
+
+class TagListAPIView(ListAPIView):
+
+    def list(self, request):
+        return Response(GlobalTag.objects.values_list('name', flat=True))
+
+
 import operator
 import functools
 
-class TagListCreateAPIView(ListCreateAPIView):
-
-    serializer_class = TagSerializer
-
-    def get_queryset(self):
-        return GlobalTag.objects.all()
-
-    def list(self, request):
-        return Response(TagSerializer(self.get_queryset(), many=True).data)
+class TagCreateAPIView(CreateAPIView):
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
@@ -295,8 +294,7 @@ class TagListCreateAPIView(ListCreateAPIView):
 
     @transaction.atomic
     def create_entry(self, entry):
-        serializer = self.get_serializer(data=entry)
-
+        serializer = TagSerializer(data=entry)
         serializer.is_valid(raise_exception=True)
 
         tag, tag_created = GlobalTag.objects.get_or_create(name=serializer.data['tag'])
