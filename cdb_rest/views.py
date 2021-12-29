@@ -205,21 +205,32 @@ class PayloadIOVListCreationAPIView(ListCreateAPIView):
         return Response(PayloadIOVSerializer(obj).data)
 
 
-class PayloadIntervalListCreateAPIView(ListCreateAPIView):
+class PayloadIntervalListAPIView(ListAPIView):
+
+    serializer_class = PayloadIntervalListSerializer
+
+    def get_queryset(self, **kwargs):
+        # Define an always-true Q object
+        qq = ~Q(pk__in=[])
+
+        if 'domain' in self.kwargs and self.kwargs['domain'] != "_":
+            qq = Q(payload_type__name=self.kwargs['domain'])
+
+        if 'tag' in self.kwargs:
+            qq = qq & Q(global_tag__name=self.kwargs['tag'])
+
+        if qq:
+            return PayloadList.objects.filter(qq)
+        else:
+            return PayloadList.objects.all()
+
+
+class PayloadIntervalCreateAPIView(CreateAPIView):
 
     serializer_class = PayloadIntervalListSerializer
 
     def get_queryset(self):
         return PayloadList.objects.all()
-
-    def list(self, request):
-        domain_filter = request.GET.get('domain', None)
-        if domain_filter:
-            queryset = PayloadList.objects.filter(payload_type__name__istartswith=domain_filter)
-        else:
-            queryset = PayloadList.objects.all()
-
-        return Response(PayloadIntervalListSerializer(queryset, many=True).data)
 
     def create(self, request, *args, **kwargs):
         # Transform to a list

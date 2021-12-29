@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.urls import register_converter
 from cdb_rest import converters
 from cdb_rest import views
@@ -41,7 +41,8 @@ urlpatterns = [
     path('piov', PayloadIOVListCreationAPIView.as_view(), name="payload_iov"),
     path('piov/<int:pk>', PayloadIOVDetailAPIView.as_view(), name="payload_iov_detail"),
 
-    path('pil', views.PayloadIntervalListCreateAPIView.as_view()),
+    re_path('^pils(?:/(?P<domain>\w+))?(?:/(?P<tag>\w+))?/?$', views.PayloadIntervalListAPIView.as_view()),
+    path('pil', views.PayloadIntervalCreateAPIView.as_view()),
     path('pil/<hex:hexhash>', views.PayloadIntervalRetrieveAPIView.as_view()),
 
     path('tags', views.TagListAPIView.as_view()),
