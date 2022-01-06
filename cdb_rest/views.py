@@ -411,7 +411,7 @@ class PayloadIOVsListAPIView(ListAPIView):
         def list(self, request):
 
             queryset = self.get_queryset()
-            serializer = PayloadListReadSerializer(queryset, many=True)
+            serializer = PayloadIntervalListSerializer(queryset, many=True)
             return Response(serializer.data)
 
 
