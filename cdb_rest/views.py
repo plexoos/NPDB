@@ -245,6 +245,8 @@ class PayloadIntervalCreateAPIView(CreateAPIView):
 
             pls.append(pl)
 
+        if len(pls) > 10: pls = pls[0:10]
+
         return Response(PayloadListSerializer(pls, many=True).data)
 
     @transaction.atomic
@@ -300,6 +302,8 @@ class TagCreateAPIView(CreateAPIView):
                 return Response(e.detail)
 
             pls.append(pl)
+
+        if len(pls) > 10: pls = pls[0:10]
 
         return Response(TagSerializer(pls, many=True).data)
 
