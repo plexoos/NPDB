@@ -20,11 +20,12 @@ services:
       - |
         python manage.py makemigrations cdb_rest
         python manage.py migrate
-        python manage.py runserver 0.0.0.0:8000
+        python manage.py collectstatic --noinput
+        /usr/sbin/apachectl -DFOREGROUND
     volumes:
       - .:/npdb
     ports:
-      - 8000:8000
+      - 8080:8080
     restart: always
     depends_on:
       db:
