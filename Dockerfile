@@ -25,5 +25,5 @@ RUN cp apache_django_host.conf /etc/apache2/sites-enabled/apache_django_host.con
 
 EXPOSE 8080
 
-ENTRYPOINT ["/bin/sh", "-c" , "python manage.py makemigrations cdb_rest && python manage.py migrate && python manage.py collectstatic --noinput && /usr/sbin/apachectl -DFOREGROUND"]
+ENTRYPOINT ["/npdb/entrypoint.sh"]
 CMD ["/bin/bash"]
