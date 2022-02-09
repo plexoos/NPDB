@@ -20,6 +20,7 @@ RUN pip install --upgrade pip \
 COPY . /npdb
 RUN cp apache_django_host.conf /etc/apache2/sites-enabled/apache_django_host.conf \
  && sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf \
+ && chmod a+wrx /npdb \
  && chmod -R a+wrx /var/log/apache2 \
  && chmod -R a+wrx /var/run/apache2
 
