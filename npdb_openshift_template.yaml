@@ -92,6 +92,8 @@ objects:
                 key: django-secret-key
                 name: ${NAME}
           image: ghcr.io/plexoos/npdb:latest
+          args:
+          - apache
           name: ${NAME}
           ports:
           - containerPort: 8080
