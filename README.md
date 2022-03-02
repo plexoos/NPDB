@@ -14,6 +14,14 @@ the services run the following command:
 docker-compose down
 ```
 
+The `entrypoint.sh` scripts allows one to choose between the apache and django
+web servers:
+
+```shell
+docker-compose run --service-ports webapp django
+docker-compose run --service-ports webapp apache
+```
+
 The database and web services can be also started individually. The following
 commands are essentially equivalent to the above procedure with `docker-compose`
 and are shown here for the reference:
