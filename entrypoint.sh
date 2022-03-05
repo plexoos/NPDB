@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+RETRIES=6
+
+until python manage.py check --database default > /dev/null 2>&1 || [ $RETRIES -eq 0 ]; do
+  echo "Waiting for database server, $((RETRIES--)) remaining attempts..."
+  sleep 10
+done
+
 python manage.py makemigrations cdb_rest
 python manage.py migrate
 mkdir -p static/
