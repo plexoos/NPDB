@@ -37,8 +37,8 @@ class GlobalTag(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=80, db_column='name', unique=True)
     description = models.CharField(max_length=255, db_column='description', null=True)
-    status = models.ForeignKey(GlobalTagStatus, on_delete=models.CASCADE, null=True)
-    type = models.ForeignKey(GlobalTagType, on_delete=models.CASCADE, null=True)
+    status = models.ForeignKey(GlobalTagStatus, on_delete=models.CASCADE)
+    type = models.ForeignKey(GlobalTagType, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
     updated = models.DateTimeField(auto_now=True, db_column='updated')
 
@@ -86,7 +86,7 @@ class PayloadList(models.Model):
     hexhash = models.CharField(max_length=40)
     description = models.CharField(max_length=255, db_column='description', null=True)
     global_tag = models.ForeignKey(GlobalTag, related_name='payload_lists', on_delete=models.CASCADE, null=True)
-    payload_type = models.ForeignKey(PayloadType, on_delete=models.CASCADE, null=True)
+    payload_type = models.ForeignKey(PayloadType, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_column='created')
     updated = models.DateTimeField(auto_now=True, db_column='updated')
 
