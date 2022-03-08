@@ -40,11 +40,13 @@ class PayloadListSerializer(serializers.ModelSerializer):
     #                                        queryset=GlobalTag.objects.all())
     class Meta:
         model = PayloadList
-        fields = ("id", "global_tag", "payload_type", "created")
+        fields = ("id", "name", "global_tag", "payload_type", "created")
         #depth = 1
 
 
 class PayloadIOVSerializer(serializers.ModelSerializer):
+
+    payload_list = serializers.SlugRelatedField(slug_field="name", read_only=True)
 
     class Meta:
         model = PayloadIOV
@@ -54,6 +56,8 @@ class PayloadIOVSerializer(serializers.ModelSerializer):
 class PayloadListReadSerializer(serializers.ModelSerializer):
 
     payload_iov = PayloadIOVSerializer(many=True, read_only=True)
+    payload_type = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    global_tag = serializers.SlugRelatedField(slug_field="name", read_only=True)
 
     class Meta:
         model = PayloadList
