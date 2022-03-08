@@ -95,7 +95,7 @@ class GlobalTagTypeCreationAPIView(ListCreateAPIView):
         return Response(GlobalTagTypeSerializer(obj).data)
 
 
-class PayloadListCreationAPIView(ListCreateAPIView):
+class PayloadListListCreationAPIView(ListCreateAPIView):
 
     serializer_class = PayloadListSerializer
 

@@ -3,7 +3,7 @@ from django.urls import register_converter
 from cdb_rest import converters
 from cdb_rest import views
 from cdb_rest.views import GlobalTagListCreationAPIView, GlobalTagDetailAPIView, GlobalTagStatusCreationAPIView, GlobalTagTypeCreationAPIView
-from cdb_rest.views import PayloadListCreationAPIView, PayloadTypeListCreationAPIView, PayloadIOVListCreationAPIView, PayloadListDetailAPIView
+from cdb_rest.views import PayloadListListCreationAPIView, PayloadTypeListCreationAPIView, PayloadIOVListCreationAPIView, PayloadListDetailAPIView
 from cdb_rest.views import PayloadIOVsListAPIView, PayloadIOVsRangesListAPIView, PayloadListDetailAPIView, PayloadIOVDetailAPIView
 from cdb_rest.views import PayloadListAttachAPIView
 
@@ -26,7 +26,7 @@ urlpatterns = [
     path('globalTags/<int:sourceGlobalTagId>', GlobalTagCloneAPIView.as_view(), name="clone_global_tag"),
 
 
-    path('pl', PayloadListCreationAPIView.as_view(), name="payload_list"),
+    path('pl', PayloadListListCreationAPIView.as_view(), name="payload_list"),
     path('pl/<int:pk>', PayloadListDetailAPIView.as_view(), name="payload_list_detail"),
     path('pt', PayloadTypeListCreationAPIView.as_view(), name="payload_type"),
 
