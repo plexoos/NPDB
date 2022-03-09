@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.urls import register_converter
 from cdb_rest import converters
-from cdb_rest import views
+from xpload import views
 
 register_converter(converters.HexStringConverter, 'hex')
 
