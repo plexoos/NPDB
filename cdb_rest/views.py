@@ -16,8 +16,8 @@ from cdb_rest.serializers import GlobalTagCreateSerializer, GlobalTagReadSeriali
 from cdb_rest.serializers import PayloadListCreateSerializer, PayloadListReadSerializer, PayloadTypeSerializer
 from cdb_rest.serializers import PayloadIOVSerializer
 from cdb_rest.serializers import PayloadListSerializer
-from cdb_rest.serializers import PayloadIntervalListSerializer
-from cdb_rest.serializers import TagSerializer
+
+import xpload.serializers as xpl
 
 
 class GlobalTagDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -457,7 +457,7 @@ class PayloadIOVDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 class PayloadIntervalListAPIView(ListAPIView):
 
-    serializer_class = PayloadIntervalListSerializer
+    serializer_class = xpl.PayloadIntervalListSerializer
 
     def get_queryset(self, **kwargs):
         # Define an always-true Q object
@@ -477,7 +477,7 @@ class PayloadIntervalListAPIView(ListAPIView):
 
 class PayloadIntervalCreateAPIView(CreateAPIView):
 
-    serializer_class = PayloadIntervalListSerializer
+    serializer_class = xpl.PayloadIntervalListSerializer
 
     def get_queryset(self):
         return PayloadList.objects.all()
@@ -517,7 +517,7 @@ class PayloadIntervalCreateAPIView(CreateAPIView):
 
 class PayloadIntervalRetrieveAPIView(RetrieveAPIView):
 
-    serializer_class = PayloadIntervalListSerializer
+    serializer_class = xpl.PayloadIntervalListSerializer
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -525,7 +525,7 @@ class PayloadIntervalRetrieveAPIView(RetrieveAPIView):
         except BaseException as e:
             return Response({"detail": f"{e}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response(PayloadIntervalListSerializer(pl).data)
+        return Response(xpl.PayloadIntervalListSerializer(pl).data)
 
 
 class TagListAPIView(ListAPIView):
@@ -555,11 +555,11 @@ class TagCreateAPIView(CreateAPIView):
 
         if len(pls) > 10: pls = pls[0:10]
 
-        return Response(TagSerializer(pls, many=True).data)
+        return Response(xpl.TagSerializer(pls, many=True).data)
 
     @transaction.atomic
     def create_entry(self, entry):
-        serializer = TagSerializer(data=entry)
+        serializer = xpl.TagSerializer(data=entry)
         serializer.is_valid(raise_exception=True)
 
         tag, tag_created = GlobalTag.objects.get_or_create(name=serializer.data['tag'])
@@ -573,7 +573,7 @@ class TagCreateAPIView(CreateAPIView):
 
 class TagRetrieveAPIView(RetrieveAPIView):
 
-    serializer_class = TagSerializer
+    serializer_class = xpl.TagSerializer
 
     def retrieve(self, request, *args, **kwargs):
         try:
@@ -581,4 +581,4 @@ class TagRetrieveAPIView(RetrieveAPIView):
         except BaseException as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response(TagSerializer(inst).data)
+        return Response(xpl.TagSerializer(inst).data)
