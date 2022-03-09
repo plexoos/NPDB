@@ -4,6 +4,7 @@ from django.contrib import admin
 
 api_urls = [
     path('cdb_rest/', include('cdb_rest.urls')),
+    path('cdb_rest/', include('xpload.urls')),
 ]
 
 urlpatterns = [
