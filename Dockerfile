@@ -15,10 +15,13 @@ ENV PYTHONDONTWRITEBYTECODE=1
 WORKDIR /npdb
 COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip \
- && pip install -r requirements.txt
+ && pip install --no-cache-dir -r requirements.txt
 
+# We copy this source dir after establishing the python environment in order to
+# avoid re-installation of pip modules while developing the app
 COPY . /npdb
-RUN cp apache_django_host.conf /etc/apache2/sites-enabled/apache_django_host.conf \
+
+RUN cp apache_django_host.conf /etc/apache2/sites-enabled/ \
  && sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf \
  && chmod a+wrx /npdb \
  && chmod -R a+wrx /var/log/apache2 \

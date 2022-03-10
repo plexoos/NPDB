@@ -28,7 +28,7 @@ and are shown here for the reference:
 
 ```shell
 docker run --rm --env-file=.env --detach --name=pg --hostname=db -p 5432:5432 -v $PWD/db/data:/var/lib/postgresql/data postgres
-docker run --rm --env-file=.env          --name=wa --link=pg -it -p 8000:8000 ghcr.io/plexoos/npdb:latest
+docker run --rm --env-file=.env          --name=wa --link=pg -it -p 8080:8080 ghcr.io/plexoos/npdb:latest
 ```
 
 During the development one may need to start over with empty DB tables. An easy
