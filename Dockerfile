@@ -2,6 +2,7 @@ FROM python:3.9
 
 RUN apt-get update \
  && apt-get install -y apache2 libapache2-mod-wsgi-py3 \
+ && apt-get install -y nginx \
  && rm -rf /var/lib/apt/lists/*
 
 RUN a2enmod wsgi rewrite proxy_http \
@@ -26,6 +27,12 @@ RUN cp apache_django_host.conf /etc/apache2/sites-enabled/ \
  && chmod a+wrx /npdb \
  && chmod -R a+wrx /var/log/apache2 \
  && chmod -R a+wrx /var/run/apache2
+
+RUN cp nginx_django_host.conf /etc/nginx/conf.d/ \
+ && chmod -R a+wrx /var/log/nginx \
+ && chmod -R a+wrx /var/lib/nginx \
+ && mkdir -p /var/run/nginx \
+ && chmod -R a+wrx /var/run/nginx
 
 EXPOSE 8080
 
