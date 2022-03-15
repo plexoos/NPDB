@@ -33,7 +33,7 @@ class PayloadListCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PayloadList
-        fields = ("id", "hexhash", "name", "global_tag", "payload_type", "created")
+        fields = ("id", "name", "global_tag", "payload_type", "created")
 
 class PayloadListSerializer(serializers.ModelSerializer):
     #global_tag = serializers.SlugRelatedField(slug_field='name',
@@ -61,7 +61,7 @@ class PayloadListReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PayloadList
-        fields = ("id", "hexhash", "name", "global_tag", "payload_type", "payload_iov", "created")
+        fields = ("id", "name", "global_tag", "payload_type", "payload_iov", "created")
         #depth = 1
 
 class GlobalTagReadSerializer(serializers.ModelSerializer):
