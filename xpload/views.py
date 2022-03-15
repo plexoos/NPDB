@@ -309,3 +309,22 @@ class TagRetrieveAPIView(RetrieveAPIView):
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(xpl.TagSerializer(inst).data)
+
+
+import json
+import numpy as np
+import redis
+from django.conf import settings
+
+r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0)
+
+class PayloadIOVsListAPIView(ListAPIView):
+
+    def list(self, request):
+        reqtime = int(self.request.GET.get('minorIOV'))
+        b = np.array(r.lrange("b", 0, 1000)).astype(int)
+        e = np.array(r.lrange("e", 0, 1000)).astype(int)
+        ivals = np.column_stack((b,e))
+        selected = (ivals[:, 0] <= reqtime) & (reqtime < ivals[:, 1])
+        ival = ivals[selected][-1]
+        return Response(json.dumps(ival.tolist()))

@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.urls import register_converter
-from xpload import converters
-from xpload import views
+from . import converters
+from . import views
 
 register_converter(converters.HexStringConverter, 'hex')
 
@@ -16,5 +16,9 @@ urlpatterns = [
 
     path('tags', views.TagListAPIView.as_view()),
     path('tag', views.TagCreateAPIView.as_view()),
-    path('tag/<str:name>', views.TagRetrieveAPIView.as_view()),
+    path('tag/<str:name>', views.TagRetrieveAPIView.as_view())
+]
+
+rds = [
+    path('payloadiovs/', views.PayloadIOVsListAPIView.as_view())
 ]
