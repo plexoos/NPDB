@@ -8,6 +8,15 @@ services:
     env_file: .env
     ports:
       - 5432:5432
+  redisdb:
+    image: redis:6.2-alpine
+    volumes:
+      - ./db/redis/data:/data
+    env_file: .env
+    restart: always
+    ports:
+      - 6379:6379
+    command: redis-server --save 600 1 --loglevel warning
   webapp:
     build: .
     command: apache
@@ -18,4 +27,5 @@ services:
     restart: always
     depends_on:
       - db
+      - redisdb
     env_file: .env

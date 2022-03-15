@@ -131,6 +131,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REDIS_HOST = os.environ.get("REDIS_HOST", default="redisdb")
+REDIS_PORT = os.environ.get("REDIS_PORT", default="6379")
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
