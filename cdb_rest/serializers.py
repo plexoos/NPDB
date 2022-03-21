@@ -46,9 +46,11 @@ class PayloadListSerializer(serializers.ModelSerializer):
 
 class PayloadIOVSerializer(serializers.ModelSerializer):
 
+    name = serializers.CharField(source="payload_url", read_only=True)
+
     class Meta:
         model = PayloadIOV
-        fields = ("id", "payload_url", "major_iov", "minor_iov", "payload_list", "created")
+        fields = ("id", "name", "payload_url", "major_iov", "minor_iov", "payload_list", "created")
         #depth = 1
 
 class PayloadListReadSerializer(serializers.ModelSerializer):
