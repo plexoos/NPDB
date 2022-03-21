@@ -149,7 +149,7 @@ class PayloadListListCreationAPIView(ListCreateAPIView):
             return Response({"detail": "PayloadType not found."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         #Remove GT if provided
-        data['global_tag'] = None
+        data['global_tag'] = GlobalTag.objects.get(name=data['global_tag']).pk
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
