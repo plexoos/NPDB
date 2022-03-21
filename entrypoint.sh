@@ -16,7 +16,7 @@ if [ "$1" == "django" ]; then
     exec python manage.py runserver 0.0.0.0:8080
 elif [ "$1" == "nginx" ]; then
     /usr/sbin/nginx -c /npdb/nginx_django_host.conf
-    gunicorn nopayloaddb.wsgi:application --bind 0.0.0.0:8088
+    gunicorn --workers=10 --worker-class=gevent --worker-connections=1000 nopayloaddb.wsgi:application --bind 0.0.0.0:8088
 elif [ "$1" == "apache" ]; then
     exec /usr/sbin/apachectl -DFOREGROUND
 else
