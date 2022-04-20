@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -90,6 +89,8 @@ WSGI_APPLICATION = 'nopayloaddb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+
         'NAME':     os.environ.get("POSTGRES_DB",       default='dbname'),
         'USER':     os.environ.get("POSTGRES_USER",     default='login'),
         'PASSWORD': os.environ.get("POSTGRES_PASSWORD", default='password'),
@@ -106,9 +107,13 @@ REST_FRAMEWORK = {
 #    'DEFAULT_AUTHENTICATION_CLASSES': (
 #        'rest_framework.authentication.TokenAuthentication',
 #    ),
-#    'DEFAULT_PERMISSION_CLASSES': (
-#        'rest_framework.permissions.IsAuthenticated',
-#    ),
+    #'DEFAULT_AUTHENTICATION_CLASSES': (
+    #    'cdb_rest.authentication.CustomJWTAuthentication',
+    #),
+    #'DEFAULT_PERMISSION_CLASSES': (
+    #    'rest_framework.permissions.IsAuthenticated',
+    #),
+
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
@@ -130,6 +135,17 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SIMPLE_JWT = {
+    #'SIGNING_KEY': settings.SECRET_KEY,
+    #ZZ'VERIFYING_KEY':SECRET_KEY,
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'AUTH_HEADER_TYPES': ('JWT', 'Bearer'),
+    'USER_ID_CLAIM': 'user_id',
+
+    #'JTI_CLAIM': 'jti',
+}
+
 
 REDIS_HOST = os.environ.get("REDIS_HOST", default="redisdb")
 REDIS_PORT = os.environ.get("REDIS_PORT", default="6379")

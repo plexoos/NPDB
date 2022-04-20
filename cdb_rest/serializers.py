@@ -41,16 +41,17 @@ class PayloadListSerializer(serializers.ModelSerializer):
     class Meta:
         model = PayloadList
         fields = ("id", "name", "global_tag", "payload_type", "created")
+        #fields = ("id", "name", "global_tag", "payload_type", "freeze_time", "created")
         #depth = 1
 
 
 class PayloadIOVSerializer(serializers.ModelSerializer):
 
-    name = serializers.CharField(source="payload_url", read_only=True)
+    payload_list = serializers.SlugRelatedField(slug_field="name", read_only=True)
 
     class Meta:
         model = PayloadIOV
-        fields = ("id", "name", "payload_url", "major_iov", "minor_iov", "payload_list", "created")
+        fields = ("id", "payload_url", "major_iov", "minor_iov", "major_iov_end", "minor_iov_end", "payload_list", "inserted")
         #depth = 1
 
 class PayloadListReadSerializer(serializers.ModelSerializer):
@@ -74,7 +75,22 @@ class GlobalTagReadSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "status", "type", "payload_lists", "created", "updated")
         depth = 1
 
+class GlobalTagListSerializer(serializers.ModelSerializer):
 
+    payload_lists_count = serializers.SerializerMethodField()
+    payload_iov_count = serializers.SerializerMethodField()
+    status = serializers.SlugRelatedField(slug_field="name", read_only=True)
+    type = serializers.SlugRelatedField(slug_field="name", read_only=True)
+
+    class Meta:
+        model = GlobalTag
+        fields = ("id", "name", "status", "type", "payload_lists_count", "payload_iov_count", "created", "updated")
+
+    def get_payload_lists_count(self, obj):
+        return obj.payload_lists.count()
+
+    def get_payload_iov_count(self, obj):
+        return PayloadIOV.objects.filter(payload_list__in=obj.payload_lists.all()).count()
 
 
 
