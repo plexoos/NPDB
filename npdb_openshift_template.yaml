@@ -49,12 +49,6 @@ objects:
       kind: Service
       name: ${NAME}-${XPLOAD_ARG}
 - apiVersion: v1
-  kind: ImageStream
-  metadata:
-    annotations:
-      description: Keeps track of changes in the application image
-    name: ${NAME}
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     annotations:
@@ -179,17 +173,6 @@ objects:
         - name: data
           persistentVolumeClaim:
             claimName: npdb-postgresql-pvc
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - postgresql
-        from:
-          kind: ImageStreamTag
-          name: postgresql:${POSTGRESQL_VERSION}
-          namespace: openshift
-      type: ImageChange
-    - type: ConfigChange
 
 parameters:
 - description: The name assigned to all of the frontend objects defined in this template.
