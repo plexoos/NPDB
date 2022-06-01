@@ -133,24 +133,24 @@ objects:
       spec:
         containers:
         - env:
-          - name: POSTGRESQL_USER
+          - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
                 key: database-user
                 name: ${NAME}
-          - name: POSTGRESQL_PASSWORD
+          - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: database-password
                 name: ${NAME}
-          - name: POSTGRESQL_DATABASE
+          - name: POSTGRES_DB
             value: ${DATABASE_NAME}
-          image: ' '
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
+          image: dockerhub.sdcc.bnl.gov/library/postgres:14.3
           livenessProbe:
             exec:
-              command:
-              - /usr/libexec/check-container
-              - --live
+              command: ["pg_isready", "-d", "${DATABASE_NAME}", "-U", "${DATABASE_USER}"]
             initialDelaySeconds: 120
             timeoutSeconds: 10
           name: postgresql
@@ -158,15 +158,14 @@ objects:
           - containerPort: 5432
           readinessProbe:
             exec:
-              command:
-              - /usr/libexec/check-container
+              command: ["pg_isready", "-d", "${DATABASE_NAME}", "-U", "${DATABASE_USER}"]
             initialDelaySeconds: 5
             timeoutSeconds: 1
           resources:
             limits:
               memory: ${MEMORY_POSTGRESQL_LIMIT}
           volumeMounts:
-          - mountPath: /var/lib/pgsql/data
+          - mountPath: /var/lib/postgresql/data
             name: data
             subPath: ${NAME}
         volumes:
