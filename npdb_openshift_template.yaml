@@ -148,6 +148,7 @@ objects:
           - name: PGDATA
             value: /var/lib/postgresql/data/pgdata
           image: dockerhub.sdcc.bnl.gov/library/postgres:14.3
+          args: ["-c", "max_connections=1000"]
           livenessProbe:
             exec:
               command: ["pg_isready", "-d", "${DATABASE_NAME}", "-U", "${DATABASE_USER}"]
