@@ -22,17 +22,17 @@ RUN pip install --upgrade pip \
 # avoid re-installation of pip modules while developing the app
 COPY . /npdb
 
+RUN chmod -R 775 /npdb
+
 RUN cp apache_django_host.conf /etc/apache2/sites-enabled/ \
  && sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf \
- && chmod a+wrx /npdb \
- && chmod -R a+wrx /var/log/apache2 \
- && chmod -R a+wrx /var/run/apache2
+ && chmod -R 777 /var/log/apache2 \
+ && chmod -R 775 /var/run/apache2
 
 RUN cp nginx_django_host.conf /etc/nginx/conf.d/ \
- && chmod -R a+wrx /var/log/nginx \
- && chmod -R a+wrx /var/lib/nginx \
- && mkdir -p /var/run/nginx \
- && chmod -R a+wrx /var/run/nginx
+ && chmod -R 777 /var/log/nginx \
+ && chmod -R 775 /var/lib/nginx \
+ && mkdir -p -m 775 /var/run/nginx
 
 EXPOSE 8080
 
