@@ -1,0 +1,240 @@
+Templates (oc new-app --template=<template>)
+-----
+redis-persistent
+  Project: openshift
+  Redis in-memory data structure store, with persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/redis-container/blob/master/5.
+
+NOTE: You must have persistent volumes available in your cluster to use this template.
+redis-ephemeral
+  Project: openshift
+  Redis in-memory data structure store, without persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/redis-container/blob/master/5.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
+react-web-app-example
+  Project: openshift
+  Build a basic React Web Application
+rails-postgresql-example
+  Project: openshift
+  An example Rails application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/rails-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+rails-pgsql-persistent
+  Project: openshift
+  An example Rails application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/rails-ex/blob/master/README.md.
+postgresql-ephemeral
+  Project: openshift
+  PostgreSQL database service, without persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
+myapp
+  Project: npps
+  An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/django-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+cakephp-mysql-example
+  Project: openshift
+  An example CakePHP application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/cakephp-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+cakephp-mysql-persistent
+  Project: openshift
+  An example CakePHP application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/cakephp-ex/blob/master/README.md.
+dancer-mysql-example
+  Project: openshift
+  An example Dancer application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/dancer-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+dancer-mysql-persistent
+  Project: openshift
+  An example Dancer application with a MySQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/dancer-ex/blob/master/README.md.
+django-psql-example
+  Project: openshift
+  An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/django-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+django-psql-persistent
+  Project: openshift
+  An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/django-ex/blob/master/README.md.
+httpd-example
+  Project: openshift
+  An example Apache HTTP Server (httpd) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/httpd-ex/blob/master/README.md.
+jenkins-ephemeral
+  Project: openshift
+  Jenkins service, without persistent storage.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+jenkins-ephemeral-monitored
+  Project: openshift
+  Jenkins service, without persistent storage. 
+
+ To run this template extra RBAC permissions need to be provideed to the use to be able to create the ServiceMonitor Custom Resource managed by the prometheus-operator. 
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+jenkins-persistent
+  Project: openshift
+  Jenkins service, with persistent storage.
+
+NOTE: You must have persistent volumes available in your cluster to use this template.
+jenkins-persistent-monitored
+  Project: openshift
+  Jenkins service, with persistent storage. 
+
+ To run this template extra RBAC permissions need to be provideed to the use to be able to create the ServiceMonitor Custom Resource managed by the prometheus-operator. 
+
+NOTE: You must have persistent volumes available in your cluster to use this template.
+mariadb-ephemeral
+  Project: openshift
+  MariaDB database service, without persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mariadb-container/blob/master/10.3/root/usr/share/container-scripts/mysql/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
+mariadb-persistent
+  Project: openshift
+  MariaDB database service, with persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mariadb-container/blob/master/10.3/root/usr/share/container-scripts/mysql/README.md.
+
+NOTE: Scaling to more than one replica is not supported. You must have persistent volumes available in your cluster to use this template.
+mysql-ephemeral
+  Project: openshift
+  MySQL database service, without persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mysql-container/blob/master/8.0/root/usr/share/container-scripts/mysql/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing
+mysql-persistent
+  Project: openshift
+  MySQL database service, with persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/mysql-container/blob/master/8.0/root/usr/share/container-scripts/mysql/README.md.
+
+NOTE: Scaling to more than one replica is not supported. You must have persistent volumes available in your cluster to use this template.
+nginx-example
+  Project: openshift
+  An example Nginx HTTP server and a reverse proxy (nginx) application that serves static content. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nginx-ex/blob/master/README.md.
+nodejs-mongodb-example
+  Project: openshift
+  An example Node.js application with a MongoDB database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nodejs-ex/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+nodejs-postgresql-example
+  Project: openshift
+  An example Node.js application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/nodeshift-starters/nodejs-rest-http-crud/blob/master/README.md.
+
+WARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.
+nodejs-postgresql-persistent
+  Project: openshift
+  An example Node.js application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/nodeshift-starters/nodejs-rest-http-crud/blob/master/README.md.
+openjdk-web-basic-s2i
+  Project: openshift
+  An example Java application using OpenJDK. For more information about using this template, see https://github.com/jboss-openshift/application-templates.
+postgresql-persistent
+  Project: openshift
+  PostgreSQL database service, with persistent storage. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/postgresql-container/.
+
+NOTE: Scaling to more than one replica is not supported. You must have persistent volumes available in your cluster to use this template.
+wildfly-s2i-chained-build-template
+  Project: openshift
+  S2I build of WildFly application (<app-name>-build-artifacts image) followed by a build to create a lightweight application image (<app-name> image). <app-name> image can then be managed by the WildFly Operator.
+
+Image streams (oc new-app --image-stream=<image-stream> [--code=<source>])
+-----
+cli
+  Project: openshift
+  Tags:    latest
+cli-artifacts
+  Project: openshift
+  Tags:    latest
+dotnet-runtime
+  Project: openshift
+  Tags:    2.1-el7, 2.1-ubi8, 3.1-el7, 3.1-ubi8, latest
+golang
+  Project: openshift
+  Tags:    1.13.4-ubi7, 1.13.4-ubi8, latest
+hello-openshift
+  Project: openshift
+  Tags:    latest
+httpd
+  Project: openshift
+  Tags:    2.4-el7, 2.4-el8, latest
+installer
+  Project: openshift
+  Tags:    latest
+installer-artifacts
+  Project: openshift
+  Tags:    latest
+java
+  Project: openshift
+  Tags:    latest, openjdk-11-ubi8, openjdk-8-ubi8
+jenkins
+  Project: openshift
+  Tags:    2, latest
+jenkins-agent-base
+  Project: openshift
+  Tags:    latest
+jenkins-agent-maven
+  Project: openshift
+  Tags:    latest, v4.0
+jenkins-agent-nodejs
+  Project: openshift
+  Tags:    latest, v4.0
+mariadb
+  Project: openshift
+  Tags:    10.3-el7, 10.3-el8, latest
+mongodb
+  Project: openshift
+  Tags:    3.6, latest
+must-gather
+  Project: openshift
+  Tags:    latest
+mysql
+  Project: openshift
+  Tags:    8.0-el7, 8.0-el8, latest
+wildfly-runtime
+  Project: openshift
+  Tags:    17.0, 18.0, 19.0, 20.0, 21.0, latest
+nodejs
+  Project: openshift
+  Tags:    10-ubi7, 10-ubi8, 12-ubi7, 12-ubi8, 14-ubi7, 14-ubi8, latest
+openliberty
+  Project: openshift
+  Tags:    latest
+perl
+  Project: openshift
+  Tags:    5.26-el7, 5.26-ubi8, 5.30-el7, 5.30-ubi8, latest
+php
+  Project: openshift
+  Tags:    7.2-ubi8, 7.3-ubi7, 7.3-ubi8, 7.4-ubi8, latest
+postgresql
+  Project: openshift
+  Tags:    10-el7, 10-el8, 12-el7, 12-el8, 9.6-el8, latest
+python
+  Project: openshift
+  Tags:    2.7-ubi7, 2.7-ubi8, 3.6-ubi8, 3.8-ubi7, 3.8-ubi8, latest
+redis
+  Project: openshift
+  Tags:    5-el7, 5-el8, latest
+ruby
+  Project: openshift
+  Tags:    2.5-ubi7, 2.5-ubi8, 2.6-ubi7, 2.6-ubi8, 2.7-ubi7, 2.7-ubi8, latest
+tests
+  Project: openshift
+  Tags:    latest
+wildfly
+  Project: openshift
+  Tags:    10.0, 10.1, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 8.1, 9.0, latest
+nginx
+  Project: openshift
+  Tags:    1.14-el8, 1.16-el7, 1.16-el8, 1.18-ubi7, 1.18-ubi8, latest
+tools
+  Project: openshift
+  Tags:    latest
+dotnet
+  Project: openshift
+  Tags:    2.1-el7, 2.1-ubi8, 3.1-el7, 3.1-ubi8
+dotnet
+  Project: openshift
+  Tags:    2.1-el7, 2.1-ubi8, 3.1-el7, 3.1-ubi8
+dotnet
+  Project: openshift
+  Tags:    2.1-el7, 2.1-ubi8, 3.1-el7, 3.1-ubi8
+dotnet
+  Project: openshift
+  Tags:    2.1-el7, 2.1-ubi8, 3.1-el7, 3.1-ubi8
+oauth-proxy
+  Project: openshift
+  Tags:    v4.4
+

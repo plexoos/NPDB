@@ -1,0 +1,39 @@
+From 5903b80fa2af46e67f0eb0e67492a2647ecc4811 Mon Sep 17 00:00:00 2001
+From: Dmitri Smirnov <dmixsmi@gmail.com>
+Date: Thu, 4 Nov 2021 13:17:08 -0400
+Subject: [PATCH] update compose.yaml for openshift
+
+---
+ docker-compose.yml | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 6f3ce1c..176ccd9 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -1,4 +1,4 @@
+-version: "3.9"
++version: "3"
+    
+ services:
+   db:
+@@ -6,6 +6,8 @@ services:
+     volumes:
+       - ./db/data:/var/lib/postgresql/data
+       - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
++    ports:
++      - 5432
+     env_file: .env
+     healthcheck:
+       test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}"]
+@@ -25,6 +27,5 @@ services:
+       - 8000:8000
+     restart: always
+     depends_on:
+-      db:
+-        condition: service_healthy
++      - db
+     env_file: .env
+-- 
+2.26.2
+
